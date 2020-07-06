@@ -1,5 +1,7 @@
 # Graph Visualisation
 
+Vue.js tree graph visualiser that uses Express.js backend with Neo4j database
+
 ## Backend Installation
 
 - Create Neo4j database with
@@ -29,3 +31,13 @@ docker run \
 
 - Run `npm install` in frontend folder of the project
 - Start sever with `npm run serve`
+
+## Usage
+
+- Open http://localhost:8080/ in your browser
+- You see a tree of nodes:
+
+<img width="581" alt="Screenshot 2020-07-07 at 01 33 59" src="https://user-images.githubusercontent.com/42918058/86667704-2ca19800-bff2-11ea-8008-1e7c2de6e84e.png">
+
+- Click a node to see its details 
+- Click 'x' to close the details
