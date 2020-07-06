@@ -1,42 +1,6 @@
-const data = [
-  {
-    name: "A",
-    description: "This is a description of A",
-    parentId: "",
-  },
-  {
-    name: "B",
-    description: "This is a description of B",
-    parent: "A",
-  },
-  {
-    name: "C",
-    description: "This is a description of C",
-    parent: "A",
-  },
-  {
-    name: "D",
-    description: "This is a description of D",
-    parent: "A",
-  },
-  {
-    name: "B-1",
-    description: "This is a description of B-1",
-    parent: "B",
-  },
-  {
-    name: "B-2",
-    description: "This is a description of B-2",
-    parent: "B",
-  },
-  {
-    name: "B-3",
-    description: "This is a description of B-3",
-    parent: "B",
-  },
-];
-
 const neo4j = require("neo4j-driver");
+
+const { data } = require("./data.json");
 
 const user = "neo4j";
 const password = "test";
@@ -62,13 +26,8 @@ const migrate = async () => {
           `(a${index}:Node {name: "${datum.name}", description: "${datum.description}"})`
         );
         if (datum.parent) {
-          // query.relations.push(
-          //   `(a${data.findIndex(
-          //     (el) => el.name === datum.parent
-          //   )})-[:CHILD]->(a${index})`
-          // );
           query.relations.push(
-            `(a${index})-[:PARENT]->(a${data.findIndex(
+            `(a${index})-[:CHILD_OF]->(a${data.findIndex(
               (el) => el.name === datum.parent
             )})`
           );
@@ -77,11 +36,15 @@ const migrate = async () => {
       await session.run(
         `CREATE ${query.nodes.join(",")},${query.relations.join(",")}`
       );
+      console.log("Records created");
+    } else {
+      console.log("Database is not empty");
     }
+  } catch (error) {
+    console.log(error);
   } finally {
     await session.close();
   }
-  // on application exit:
   await driver.close();
 };
 
