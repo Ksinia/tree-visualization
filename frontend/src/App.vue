@@ -1,18 +1,30 @@
 <template>
   <div id="app">
-    <Node v-bind:node="tree" />
+    <Node
+      v-bind:node="tree"
+      v-on:select-node="selectNode"
+      v-bind:selectedNodeName="selectedNode ? selectedNode.name : null"
+      v-bind:root="true"
+    />
+    <Description
+      v-if="selectedNode"
+      v-bind:node="selectedNode"
+      v-on:select-node="selectNode"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Node from "./components/Node.vue";
+import Description from "./components/Description.vue";
 import url from "./url";
 
 export default Vue.extend({
   name: "App",
   components: {
     Node,
+    Description,
   },
   data() {
     return {
@@ -56,6 +68,7 @@ export default Vue.extend({
           },
         ],
       },
+      selectedNode: null,
     };
   },
   created() {
@@ -70,7 +83,6 @@ export default Vue.extend({
         const response = await fetch(url);
         this.loading = false;
         const body = await response.json();
-        console.log(body);
         if (!response.ok) {
           this.error = body.toString();
         } else {
@@ -79,6 +91,9 @@ export default Vue.extend({
       } catch (error) {
         this.error = error;
       }
+    },
+    selectNode(node) {
+      this.selectedNode = node;
     },
   },
 });
@@ -92,5 +107,8 @@ export default Vue.extend({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  margin-left: 100px;
+  display: flex;
+  flex-flow: row wrap;
 }
 </style>

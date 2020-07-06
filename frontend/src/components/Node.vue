@@ -1,8 +1,14 @@
 <template>
   <div class="node">
-    <div class="line"><hr /></div>
-    <div class="node-info">
-      <p>{{ node.name }}</p>
+    <div class="node-with-line">
+      <div v-if="!root" class="line"><hr /></div>
+      <div
+        @click="onClick($event)"
+        class="node-info"
+        v-bind:class="{ selected: node.name === selectedNodeName }"
+      >
+        <p>{{ node.name }}</p>
+      </div>
     </div>
 
     <div v-if="node.children && node.children.length > 0" class="line">
@@ -13,6 +19,9 @@
         v-for="child in node.children"
         v-bind:node="child"
         v-bind:key="child.name"
+        v-on:select-node="select"
+        v-bind:selectedNodeName="selectedNodeName"
+        v-bind:root="false"
       />
     </div>
   </div>
@@ -23,35 +32,48 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "Node",
-  props: { node: Object },
+  data() {
+    return {
+      selected: false,
+    };
+  },
+  props: {
+    node: Object,
+    selectedNodeName: String,
+    root: Boolean,
+  },
+  methods: {
+    onClick(event) {
+      this.$emit("select-node", this.$props.node);
+    },
+    select(value) {
+      this.$emit("select-node", value);
+    },
+  },
 });
 </script>
 
 <style>
 .node {
-  width: 5rem;
-  height: 5rem;
+  height: fit-content;
   display: flex;
   flex-direction: row;
-  /* height: fit-content; */
   width: fit-content;
 }
 .children {
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
-  height: fit-content;
-  width: fit-content;
-  border-left: 1px solid lightgray;
+  border-left: 2px solid lightgray;
+  justify-content: space-between;
 }
 .node-info {
-  /* margin: auto; */
   margin: 1rem 0;
-
-  min-width: 7rem;
+  width: 2rem;
+  height: 2rem;
   display: flex;
   flex-direction: row;
-  border: 1px solid lightgray;
+  border: 2px solid lightgray;
 }
 hr {
   min-width: 2rem;
@@ -61,5 +83,13 @@ hr {
 }
 p {
   margin: auto;
+}
+.selected {
+  border: 2px solid orange;
+}
+.node-with-line {
+  margin: auto 0;
+  display: flex;
+  flex-direction: row;
 }
 </style>

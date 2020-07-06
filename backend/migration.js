@@ -62,11 +62,11 @@ const migrate = async () => {
           `(a${index}:Node {name: "${datum.name}", description: "${datum.description}"})`
         );
         if (datum.parent) {
-          query.relations.push(
-            `(a${data.findIndex(
-              (el) => el.name === datum.parent
-            )})-[:CHILD]->(a${index})`
-          );
+          // query.relations.push(
+          //   `(a${data.findIndex(
+          //     (el) => el.name === datum.parent
+          //   )})-[:CHILD]->(a${index})`
+          // );
           query.relations.push(
             `(a${index})-[:PARENT]->(a${data.findIndex(
               (el) => el.name === datum.parent

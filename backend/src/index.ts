@@ -14,9 +14,10 @@ app.use(corsMiddleware);
 app.use("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await dbSession.run(
-      //   "match (n)-[r]->(n2) with n, [type(r), n2] as relative return { root: n, relatives: collect(relative) }"
-      //   "match (n) optional match (n)-[r]->(n2) with n, [type(r), n2] as relative return { root: n, relatives: collect(relative) }"
-      "MATCH tree = (p:Node)-[:PARENT*1..5]->(c:Node) WHERE c.name = 'A' RETURN nodes(tree), relationships(tree), tree, length(tree), [n in nodes(tree) | n.name] as names"
+      "match (n:Node) optional match (n:Node)-[r:PARENT]->(n2:Node) with n, [type(r), n2] as relative return { root: n, relatives: collect(relative) }"
+      // "match (n:Node) optional match (n:Node)-[r:CHILD]->(n2:Node) with n, [type(r), n2] as child return { root: n, children: collect(child) }"
+      // "match (n) optional match (n)-[r]->(n2) with n, [type(r), n2] as relative return { root: n, relatives: collect(relative) }"
+      // "MATCH tree = (p:Node)-[:PARENT*1..5]->(c:Node) WHERE c.name = 'A' RETURN nodes(tree), relationships(tree), tree, length(tree), [n in nodes(tree) | n.name] as names"
     );
     const records = result.records;
     res.status(200).send(JSON.stringify(records));
