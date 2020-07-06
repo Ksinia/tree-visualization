@@ -1,7 +1,5 @@
 node_modules
 */build
-/data
-/plugins
 
 # local env files
 .env.local
