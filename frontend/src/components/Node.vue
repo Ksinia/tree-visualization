@@ -11,12 +11,12 @@
       </div>
     </div>
 
-    <div v-if="node.children && node.children.length > 0" class="line">
+    <div v-if="node.child_of && node.child_of.length > 0" class="line">
       <hr />
     </div>
-    <div v-if="node.children && node.children.length > 0" class="children">
+    <div v-if="node.child_of && node.child_of.length > 0" class="children">
       <Node
-        v-for="child in node.children"
+        v-for="child in node.child_of"
         v-bind:node="child"
         v-bind:key="child.name"
         v-on:select-node="select"
@@ -53,9 +53,8 @@ export default Vue.extend({
 });
 </script>
 
-<style>
+<style scoped>
 .node {
-  height: fit-content;
   display: flex;
   flex-direction: row;
   width: fit-content;
@@ -65,7 +64,6 @@ export default Vue.extend({
   flex-direction: column;
   margin: 1rem 0;
   border-left: 2px solid lightgray;
-  justify-content: space-between;
 }
 .node-info {
   margin: 1rem 0;

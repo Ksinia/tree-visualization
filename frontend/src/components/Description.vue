@@ -20,7 +20,7 @@ export default Vue.extend({
 });
 </script>
 
-<style>
+<style scoped>
 .description {
   border: 1px solid rgb(10, 71, 71);
   margin: auto;

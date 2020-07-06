@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <Node
-      v-bind:node="tree"
-      v-on:select-node="selectNode"
-      v-bind:selectedNodeName="selectedNode ? selectedNode.name : null"
-      v-bind:root="true"
-    />
-    <Description
-      v-if="selectedNode"
-      v-bind:node="selectedNode"
-      v-on:select-node="selectNode"
-    />
+    <div v-if="loading" class="loading">Loading...</div>
+    <div v-if="error" class="error">{{ error }}</div>
+    <div class="content" v-if="Object.keys(tree).length > 0">
+      <Node
+        v-bind:node="tree"
+        v-on:select-node="selectNode"
+        v-bind:selectedNodeName="selectedNode ? selectedNode.name : null"
+        v-bind:root="true"
+      />
+      <Description
+        v-if="selectedNode"
+        v-bind:node="selectedNode"
+        v-on:select-node="selectNode"
+      />
+    </div>
   </div>
 </template>
 
@@ -29,45 +33,8 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      nodes: [],
+      tree: {},
       error: null as null | string,
-      tree: {
-        name: "A",
-        description: "This is a description of A",
-        children: [
-          {
-            name: "B",
-            description: "This is a description of B",
-            children: [
-              {
-                name: "B-1",
-                description: "This is a description of B-1",
-                children: [],
-              },
-              {
-                name: "B-2",
-                description: "This is a description of B-2",
-                children: [],
-              },
-              {
-                name: "B-3",
-                description: "This is a description of B-3",
-                children: [],
-              },
-            ],
-          },
-          {
-            name: "C",
-            description: "This is a description of C",
-            children: [],
-          },
-          {
-            name: "D",
-            description: "This is a description of D",
-            children: [],
-          },
-        ],
-      },
       selectedNode: null,
     };
   },
@@ -86,7 +53,7 @@ export default Vue.extend({
         if (!response.ok) {
           this.error = body.toString();
         } else {
-          this.nodes = body;
+          this.tree = body;
         }
       } catch (error) {
         this.error = error;
@@ -106,7 +73,8 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.content {
   margin-left: 100px;
   display: flex;
   flex-flow: row wrap;
