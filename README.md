@@ -34,8 +34,7 @@ docker run \
 
 ## Usage
 
-- Open http://localhost:8080/ in your browser
-- You see a tree of nodes:
+- Open http://localhost:8080/ in your browser:
 
 <img width="581" alt="Screenshot 2020-07-07 at 01 33 59" src="https://user-images.githubusercontent.com/42918058/86667704-2ca19800-bff2-11ea-8008-1e7c2de6e84e.png">
 
