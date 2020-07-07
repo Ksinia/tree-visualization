@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { NodeType } from "../types";
 
 export default Vue.extend({
   name: "Node",
@@ -43,6 +44,7 @@ export default Vue.extend({
     };
   },
   props: {
+    /**@type NodeType */
     node: Object,
     selectedNodeName: String,
     root: Boolean,
@@ -52,7 +54,7 @@ export default Vue.extend({
     onClick() {
       this.$emit("select-node", this.$props.node);
     },
-    select(value) {
+    select(value: NodeType) {
       this.$emit("select-node", value);
     },
   },

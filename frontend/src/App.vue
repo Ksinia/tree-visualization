@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="loading" class="loading">Loading...</div>
     <div v-if="error" class="error">{{ error }}</div>
-    <div class="content" v-if="Object.keys(tree).length > 0">
+    <div class="content" v-if="tree">
       <Node
         v-bind:node="tree"
         v-on:select-node="selectNode"
@@ -23,6 +23,7 @@ import Vue from "vue";
 import Node from "./components/Node.vue";
 import Description from "./components/Description.vue";
 import url from "./url";
+import { NodeType } from "./types";
 
 export default Vue.extend({
   name: "App",
@@ -33,14 +34,14 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      tree: {},
+      tree: null as null | NodeType,
       error: null as null | string,
-      selectedNode: null,
+      selectedNode: null as null | NodeType,
     };
   },
   created() {
     this.error = null;
-    this.nodes = [];
+    this.tree = null;
     this.loading = true;
     this.fetchData();
   },
@@ -59,7 +60,7 @@ export default Vue.extend({
         this.error = error;
       }
     },
-    selectNode(node) {
+    selectNode(node: NodeType) {
       this.selectedNode = node;
     },
   },
