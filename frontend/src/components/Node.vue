@@ -135,5 +135,6 @@ p {
   border: 2px solid lightgray;
   vertical-align: middle;
   line-height: 2rem;
+  cursor: pointer;
 }
 </style>

@@ -50,5 +50,6 @@ export default Vue.extend({
       rgb(10, 71, 71) calc(50% + 2px),
       transparent calc(50% + 2px)
     );
+  cursor: pointer;
 }
 </style>
