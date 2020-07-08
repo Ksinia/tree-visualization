@@ -21,12 +21,13 @@
         v-bind:selectedNodeName="selectedNodeName"
         v-bind:root="false"
         v-bind:level="
-        node.child_of.length > 1 ?
-          (index === 0
-            ? 'top'
-            : index === node.child_of.length - 1
-            ? 'bottom'
-            : 'middle') : ''
+          node.child_of.length > 1
+            ? index === 0
+              ? 'top'
+              : index === node.child_of.length - 1
+              ? 'bottom'
+              : 'middle'
+            : ''
         "
       />
     </div>

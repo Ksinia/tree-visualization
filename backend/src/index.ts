@@ -16,8 +16,10 @@ app.use("/", async (req: Request, res: Response, next: NextFunction) => {
     const result = await dbSession.run(
       "MATCH (n) WHERE NOT (:Node)<-[:CHILD_OF]-(n) MATCH path = (n)-[:CHILD_OF*]-(:Node) WITH collect(path) as paths CALL apoc.convert.toTree(paths) yield value RETURN value;"
     );
-    const tree = result.records[0]._fields[0];
-    res.json(tree);
+    const trees = result.records.map(
+      (record: { _fields: Object[] }) => record._fields[0]
+    );
+    res.json(trees);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error });

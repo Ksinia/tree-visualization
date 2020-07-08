@@ -2,13 +2,17 @@
   <div id="app">
     <div v-if="loading" class="loading">Loading...</div>
     <div v-if="error" class="error">{{ error }}</div>
-    <div class="content" v-if="tree">
-      <Node
-        v-bind:node="tree"
-        v-on:select-node="selectNode"
-        v-bind:selectedNodeName="selectedNode ? selectedNode.name : null"
-        v-bind:root="true"
-      />
+    <div class="content" v-if="trees.length > 0">
+      <div class="trees">
+        <Node
+          v-for="(tree, index) in trees"
+          v-bind:key="index"
+          v-bind:node="tree"
+          v-on:select-node="selectNode"
+          v-bind:selectedNodeName="selectedNode ? selectedNode.name : null"
+          v-bind:root="true"
+        />
+      </div>
       <Description
         v-if="selectedNode"
         v-bind:node="selectedNode"
@@ -34,14 +38,14 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      tree: null as null | NodeType,
+      trees: [] as NodeType[],
       error: null as null | string,
       selectedNode: null as null | NodeType,
     };
   },
   created() {
     this.error = null;
-    this.tree = null;
+    this.trees = [];
     this.loading = true;
     this.fetchData();
   },
@@ -54,7 +58,7 @@ export default Vue.extend({
         if (!response.ok) {
           this.error = body.toString();
         } else {
-          this.tree = body;
+          this.trees = body;
         }
       } catch (error) {
         this.error = error;
@@ -79,5 +83,9 @@ export default Vue.extend({
   margin-left: 100px;
   display: flex;
   flex-flow: row wrap;
+}
+.trees {
+  display: flex;
+  flex-direction: column;
 }
 </style>
